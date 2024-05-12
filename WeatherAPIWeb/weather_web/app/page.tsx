@@ -26,8 +26,7 @@ export default function Home() {
     const [location, setLocation] = useState<string>("");
     const [shouldFetch, setShouldFetch] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const [isSearching, setIsSearching] = useState<boolean>(false);
-
+    const [isSearching, setIsSearching] = useState<boolean>(true);
 
     const debouncedHandleSearch = useDebouncedCallback(() => {
         if (location.trim() !== "") {
@@ -40,9 +39,9 @@ export default function Home() {
     return (
         <BackgroundGradientAnimation className="flex justify-center items-center h-full">
             <div className="main--div min-h-[600px] hover:shadow-2xl duration-300 bg-gray-500 p-10 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20  ESAWEY&WS&+asyederč shadow-lg">
-                <div className="relative">
+                <div className="group relative">
                     <input
-                        className="hover:scale-105 duration-300 text-gray-300 bg-gray-400 mb-5 p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20  w-full"
+                        className="group-hover:scale-105 duration-300 text-gray-300 bg-gray-400 mb-5 p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20  w-full"
                         value={location}
                         onChange={e => {
                             setLocation(e.target.value);
@@ -50,7 +49,7 @@ export default function Home() {
                         }}
                         placeholder="Address, City or Zip Code"
                     />
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 absolute top-1/2 right-3 transform -translate-y-[21px]">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="group-hover:scale-110 duration-300 w-6 h-6 absolute top-1/2 right-3 transform -translate-y-[21px]">
                         <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                     </svg>
                 </div>
