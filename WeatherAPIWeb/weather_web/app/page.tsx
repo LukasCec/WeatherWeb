@@ -38,7 +38,7 @@ export default function Home() {
 
     return (
         <BackgroundGradientAnimation className="flex justify-center items-center h-full">
-            <div className="main--div min-h-[600px] hover:shadow-2xl duration-300 bg-gray-500 p-10 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20  ESAWEY&WS&+asyederč shadow-lg">
+            <div className="main--div min-h-[600px] md:min-h-[400px] lg:min-h-[500px] xl:min-h-[600px] hover:shadow-2xl duration-300 bg-gray-500 p-10 md:p-5 lg:p-7 xl:p-10 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20  ESAWEY&WS&+asyederč shadow-lg">
                 <div className="group relative">
                     <input
                         className="group-hover:scale-105 duration-300 text-gray-300 bg-gray-400 mb-5 p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20  w-full"
