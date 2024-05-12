@@ -1,113 +1,128 @@
-import Image from "next/image";
+'use client';
+import React, { useState } from "react";
+import FetchWeatherData from "../components/FetchWeatherData";
+import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
+import { useDebouncedCallback } from 'use-debounce';
 
 export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    interface WeatherData {
+        current: {
+            temp_c: number;
+            wind_kph: number;
+            wind_dir: string;
+            pressure_mb: number;
+            humidity: number;
+            condition: {
+                icon: string;
+            };
+        };
+        location: {
+            name: string;
+            country: string;
+        };
+    }
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+    const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+    const [location, setLocation] = useState<string>("");
+    const [shouldFetch, setShouldFetch] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+    const [isSearching, setIsSearching] = useState<boolean>(false);
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+    const debouncedHandleSearch = useDebouncedCallback(() => {
+        if (location.trim() !== "") {
+            setShouldFetch(true);
+        } else {
+            setIsSearching(false); // Set isSearching to false if the input is empty
+        }
+    }, 400);
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
+    return (
+        <BackgroundGradientAnimation className="flex justify-center items-center h-full">
+            <div className="main--div min-h-[600px] hover:shadow-2xl duration-300 bg-gray-500 p-10 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20 shadow-lg">
+                <div className="relative">
+                    <input
+                        className="hover:scale-105 duration-300 text-gray-300 bg-gray-400 mb-5 p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20  w-full"
+                        value={location}
+                        onChange={e => {
+                            setLocation(e.target.value);
+                            debouncedHandleSearch();
+                        }}
+                        placeholder="Address, City or Zip Code"
+                    />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 absolute top-1/2 right-3 transform -translate-y-[21px]">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                </div>
+                {isSearching && !weatherData && (
+                    <div className="flex flex-col justify-center duration-300 items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-52 h-52 text-gray-500">
+                            <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM8.547 4.505a8.25 8.25 0 1 0 11.672 8.214l-.46-.46a2.252 2.252 0 0 1-.422-.586l-1.08-2.16a.414.414 0 0 0-.663-.107.827.827 0 0 1-.812.21l-1.273-.363a.89.89 0 0 0-.738 1.595l.587.39c.59.395.674 1.23.172 1.732l-.2.2c-.211.212-.33.498-.33.796v.41c0 .409-.11.809-.32 1.158l-1.315 2.191a2.11 2.11 0 0 1-1.81 1.025 1.055 1.055 0 0 1-1.055-1.055v-1.172c0-.92-.56-1.747-1.414-2.089l-.654-.261a2.25 2.25 0 0 1-1.384-2.46l.007-.042a2.25 2.25 0 0 1 .29-.787l.09-.15a2.25 2.25 0 0 1 2.37-1.048l1.178.236a1.125 1.125 0 0 0 1.302-.795l.208-.73a1.125 1.125 0 0 0-.578-1.315l-.665-.332-.091.091a2.25 2.25 0 0 1-1.591.659h-.18c-.249 0-.487.1-.662.274a.931.931 0 0 1-1.458-1.137l1.279-2.132Z" clipRule="evenodd" />
+                        </svg>
+                        <div className="text-center text-gray-500 mt-3">
+                            <p>Enter a location to get the weather</p>
+                        </div>
+                    </div>
+                )}
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+                {shouldFetch && location && (
+                    <FetchWeatherData
+                        setWeatherData={(data) => {
+                            setWeatherData(data);
+                            setIsSearching(false); // Set isSearching to false when data is fetched
+                        }}
+                        location={location}
+                        setError={setError}
+                    />
+                )}
+                {weatherData && (
+                    <div className="flex justify-center">
+                        <img
+                            src={weatherData.current.condition.icon}
+                            alt="Weather icon"
+                        />
+                    </div>
+                )}
+                {weatherData && (
+                    <>
+                        <p className="text-center text-3xl">
+                            {weatherData.location.name}
+                        </p>
+                        <p className="text-center">
+                            {weatherData.location.country}
+                        </p>
+                        <p className="text-center bg text-3xl">
+                            {weatherData.current.temp_c}°C
+                        </p>
+                    </>
+                )}
+                {weatherData && (
+                    <div className="flex justify-between mt-3">
+                        <div className="wind-speed mr-3  p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20">
+                            <p>Wind Speed</p>
+                            <p className="text-lg">{weatherData.current.wind_kph}km/h</p>
+                        </div>
+                        <div className="wind-direc p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20">
+                            <p>Wind Direction</p>
+                            <p className="text-lg">{weatherData.current.wind_dir}</p>
+                        </div>
+                    </div>
+                )}
+                {weatherData && (
+                    <div className="w-full mt-3">
+                        <div className="wind-speed mb-3 p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20">
+                            <p>Pressure</p>
+                            <p className="text-lg">{weatherData.current.pressure_mb} hPa</p>
+                        </div>
+                        <div className="wind-direc p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20">
+                            <p>Humidity</p>
+                            <p className="text-lg">{weatherData.current.humidity}%</p>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {error && <p>{error}</p>}
+        </BackgroundGradientAnimation>
+    );
 }
