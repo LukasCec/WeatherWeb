@@ -42,7 +42,7 @@ export default function Home() {
                 <div className="group relative" onClick={() => document.getElementById("search-input")?.focus()}>
                     <input
                         id="search-input"
-                        className="group-hover:scale-105 md:group-hover:scale-100 duration-300 text-gray-300 bg-gray-400 mb-5 p-4 md:p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20  w-full"
+                        className="group-hover:scale-105 md:group-hover:scale-100 duration-300 text-gray-300 bg-gray-400 mb-5 p-4 md:p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20 z-50 w-full"
                         value={location}
                         onChange={e => {
                             setLocation(e.target.value);
