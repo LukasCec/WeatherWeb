@@ -9,7 +9,7 @@ export default function FetchWeatherData({ setWeatherData, location, setError }:
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=58602036f88a4f79832120944241205&q=${location}`);
+                const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=58602036f88a4f79832120944241205&q=${location}`);
                 if (!response.ok) {
                     setError('');
                     return;
