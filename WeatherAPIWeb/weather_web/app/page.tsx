@@ -39,8 +39,9 @@ export default function Home() {
     return (
         <BackgroundGradientAnimation className="flex justify-center items-center h-full">
             <div className="main--div min-h-[600px] md:min-h-[400px] lg:min-h-[500px] xl:min-h-[600px] hover:shadow-2xl duration-300 bg-gray-500 p-10 md:p-5 lg:p-7 xl:p-10 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20  ESAWEY&WS&+asyederč shadow-lg">
-                <div className="group relative">
+                <div className="group relative" onClick={() => document.getElementById("search-input")?.focus()}>
                     <input
+                        id="search-input"
                         className="group-hover:scale-105 md:group-hover:scale-100 duration-300 text-gray-300 bg-gray-400 mb-5 p-4 md:p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20  w-full"
                         value={location}
                         onChange={e => {
