@@ -4,6 +4,7 @@ import FetchWeatherData from "../components/FetchWeatherData";
 import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
 import { useDebouncedCallback } from 'use-debounce';
 
+
 export default function Home() {
     interface WeatherData {
         current: {
@@ -40,7 +41,7 @@ export default function Home() {
     return (
 
         <div className="flex justify-center items-center  h-full">
-            <BackgroundGradientAnimation>
+
                 <div className="main--div min-h-[600px] md:mt-32 lg:mt-32 mx-auto md:min-h-[400px] lg:min-h-[500px] xl:min-h-[600px] duration-300 bg-gray-500 p-10 md:p-5 lg:p-7 xl:p-10 rounded-2xl  md:w-1/3 lg:w-1/4 backdrop-blur-md backdrop-filter bg-opacity-20 shadow-lg">
                 <div className="group relative" onClick={() => document.getElementById("search-input")?.focus()}>
                     <input
@@ -126,7 +127,7 @@ export default function Home() {
             </div>
 
             {error && <p>{error}</p>}
-            </BackgroundGradientAnimation>
+
         </div>
 
     );
