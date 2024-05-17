@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import FetchWeatherData from "../components/FetchWeatherData";
 import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
 import { useDebouncedCallback } from 'use-debounce';
-
+import { useMediaQuery } from 'react-responsive';
 export default function Home() {
     interface WeatherData {
         current: {
@@ -22,6 +22,9 @@ export default function Home() {
         };
     }
 
+    const isDesktopOrLaptop = useMediaQuery({
+        query: '(min-device-width: 1224px)'
+    });
     const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
     const [location, setLocation] = useState<string>("");
     const [shouldFetch, setShouldFetch] = useState<boolean>(false);
@@ -37,9 +40,10 @@ export default function Home() {
     }, 400);
 
     return (
-        <>
 
-            <div className="main--div min-h-[600px] md:min-h-[400px] lg:min-h-[500px] xl:min-h-[600px]  duration-300 bg-gray-500 p-10 md:p-5 lg:p-7 xl:p-10 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20 shadow-lg">
+        <div className="flex justify-center items-center  h-full">
+            <BackgroundGradientAnimation>
+                <div className="main--div min-h-[600px] md:mt-32 lg:mt-32 mx-auto md:min-h-[400px] lg:min-h-[500px] xl:min-h-[600px] duration-300 bg-gray-500 p-10 md:p-5 lg:p-7 xl:p-10 rounded-2xl  md:w-1/3 lg:w-1/4 backdrop-blur-md backdrop-filter bg-opacity-20 shadow-lg">
                 <div className="group relative" onClick={() => document.getElementById("search-input")?.focus()}>
                     <input
                         id="search-input"
@@ -99,11 +103,11 @@ export default function Home() {
                 )}
                 {weatherData && (
                     <div className="flex justify-between mt-3">
-                        <div className="wind-speed mr-3  p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20">
+                        <div className="wind-speed mr-3  p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20 bg-gray-900">
                             <p>Wind Speed</p>
                             <p className="text-lg">{weatherData.current.wind_kph}km/h</p>
                         </div>
-                        <div className="wind-direc p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20">
+                        <div className="wind-direc p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20 bg-gray-900">
                             <p>Wind Direction</p>
                             <p className="text-lg">{weatherData.current.wind_dir}</p>
                         </div>
@@ -111,11 +115,11 @@ export default function Home() {
                 )}
                 {weatherData && (
                     <div className="w-full mt-3">
-                        <div className="wind-speed mb-3 p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20">
+                        <div className="wind-speed mb-3 p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20 bg-gray-900">
                             <p>Pressure</p>
                             <p className="text-lg">{weatherData.current.pressure_mb} hPa</p>
                         </div>
-                        <div className="wind-direc p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20">
+                        <div className="wind-direc p-3 rounded-2xl backdrop-blur-md backdrop-filter bg-opacity-20 bg-gray-900">
                             <p>Humidity</p>
                             <p className="text-lg">{weatherData.current.humidity}%</p>
                         </div>
@@ -124,7 +128,8 @@ export default function Home() {
             </div>
 
             {error && <p>{error}</p>}
+            </BackgroundGradientAnimation>
+        </div>
 
-    </>
     );
 }
