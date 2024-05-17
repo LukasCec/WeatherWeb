@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import FetchWeatherData from "../components/FetchWeatherData";
 import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
 import { useDebouncedCallback } from 'use-debounce';
-import { useMediaQuery } from 'react-responsive';
+
 export default function Home() {
     interface WeatherData {
         current: {
@@ -22,9 +22,7 @@ export default function Home() {
         };
     }
 
-    const isDesktopOrLaptop = useMediaQuery({
-        query: '(min-device-width: 1224px)'
-    });
+
     const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
     const [location, setLocation] = useState<string>("");
     const [shouldFetch, setShouldFetch] = useState<boolean>(false);
